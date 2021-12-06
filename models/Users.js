@@ -4,10 +4,10 @@ const {DataTypes} = require("sequelize");
 const crypto = require("crypto");
 
 const User = sequelize.define("User", {
-    // id: {
-    //     primaryKey: true,
-    //     type: DataTypes.STRING
-    // },
+    id: {
+        primaryKey: true,
+        type: DataTypes.STRING
+    },
     role: {
         type: DataTypes.ENUM("USER", "SELLER", "ADMIN"),
         defaultValue: "USER",

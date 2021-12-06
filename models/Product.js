@@ -1,32 +1,45 @@
-const exports = require('express');
+const express = require('express');
 var sequelize = require('../database/index');
-const {DataType} = require('sequelize');
+const {DataTypes} = require("sequelize");
+const User = require('../models/Users')
 
 const Product = sequelize.define('Product', {
     id: {
         primaryKey: true,
-        type: DataType.String,
+        type: DataTypes.STRING,
     },
     name: {
-        type: DataType.String,
+        type: DataTypes.STRING,
         allowNull: false
     },
     price: {
-        type: DataType.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     description: {
-        type: DataType.String
+        type: DataTypes.STRING,
     },
     image: {
-        type: DataType.String,
+        type: DataTypes.STRING,
         allowNull: false
     },
     category: {
-        type: DataType.String,
-        allowNull: false
+        type: DataTypes.STRING,
+        references: {
+            model: "Category",
+            key: 'id'
+        }
+    },
+    creator: {
+        type: DataTypes.STRING,
+        references: {
+            model: "User",
+            key: 'id'
+        }
     }
 },{
     timestamps: false,
     freezeTableName: true
 })
+
+module.exports = Product;

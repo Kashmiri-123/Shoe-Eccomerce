@@ -15,7 +15,7 @@ exports.signup = (req,res) => {
     }
 
     const user = new User(req.body);
-    // user.id = uuidv1();
+    user.id = uuidv1();
     user.password = bcrypt.hashSync(user.password, 10);
 
     user.save()
@@ -69,7 +69,7 @@ exports.getAllUsers = (req,res) => {
         .then(user => {
             return res.status(200).json(user)
         }).catch(error => {
-            return res.status(401).json(error.errors[0].message);
+            return res.status(401).json(error);
         })
 }
 

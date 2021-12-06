@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 
 //routers
 const authRoutes = require('./routes/Users');
+const productRoutes = require('./routes/Product');
+const categoryRoutes = require('./routes/Category');
 
 const app = express();
 
@@ -15,7 +17,9 @@ const app = express();
  app.use(cookieParser());//deleting/adding values to cookies
  app.use(cors());//for requesting from 3rd party domains
 
- app.use("/api", authRoutes)
+ app.use("/api", authRoutes);
+ app.use("/api", productRoutes);
+ app.use("/api", categoryRoutes);
 
  app.get("/", (req, res) => {
     res.send(`
