@@ -16,11 +16,12 @@ exports.ProductController = {
 
     getAllProducts: function(req,res){
         Product.findAll()
-            .then(product => {
-                return res.status(200).json(product)
-            }).catch(error => {
-                return res.status(401).json(error);
-            })
+        .then(product => {
+            console.log("Product.."+ product);
+            return res.status(200).json(product);
+        }).catch(error => {
+            return res.status(401).json(error);
+        })
     },
 
     updateProduct: async function(req, res){

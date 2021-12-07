@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const authRoutes = require('./routes/Users');
 const productRoutes = require('./routes/Product');
 const categoryRoutes = require('./routes/Category');
+const orderRoutes = require('./routes/Order');
 
 const app = express();
 
@@ -20,6 +21,7 @@ const app = express();
  app.use("/api", authRoutes);
  app.use("/api", productRoutes);
  app.use("/api", categoryRoutes);
+ app.use("/api", orderRoutes);
 
  app.get("/", (req, res) => {
     res.send(`

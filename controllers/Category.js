@@ -14,7 +14,7 @@ exports.CategoryController = {
     },
 
     getAllCategories: function(req,res){
-        Category.findAll()
+        Category.findAll({raw: true})
             .then(category => {
                 return res.status(200).json(category);
             }).catch(error => {

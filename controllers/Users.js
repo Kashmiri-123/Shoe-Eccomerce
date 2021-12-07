@@ -93,14 +93,13 @@ exports.updateUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
     const id = req.params.id;
-
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {raw: true});
     if(user === null){
         return res.status(401).json("User not found");
     }
     else{
         const {id,name , email, role } = user;
-        return res.status(200).json({user: { id, name, email, role}});
+        return res.status(200).json({ id, name, email, role});
     }
 }
 
