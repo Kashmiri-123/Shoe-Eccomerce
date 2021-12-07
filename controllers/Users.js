@@ -146,3 +146,58 @@ exports.removeUserById = async(req, res) => {
       })
       
 }
+
+exports.forgotPasswordController = async (req, res) => {
+    const email = req.body.email;
+
+    const user = await User.findOne({where: {email: email}});
+    console.log(">>>>>>>>>>"+ user)
+    if(user === null){
+        return res.status(401).json("User not found");
+    }
+    else{
+       var passUpdateUrl = "http://localhost:8000/password/reset/" + user.id;
+
+       const emailData = {
+        to: email, // Change to your recipient
+        from: 'kashmiri.mahanta@mtxb2b.com',
+        subject: `Password Reset link`,
+        html: `
+                  <h1>Please use the following link to reset your password</h1>
+                  <p>${passUpdateUrl}</p>
+                  <hr />
+                  <p>This email may contain sensetive information</p>
+                  <p>From <br> ShoeStore</p>
+              `
+      };
+      sgMail.send(emailData)
+                .then(sent => {
+                  return res.json({
+                    message: `Email has been sent to ${email}. Follow the instruction to activate your account`
+                  });
+                })
+                .catch(error => {
+                  return res.json({
+                    message: error.message
+                  });
+                });
+    }
+}
+
+exports.updatePassword = async(req, res) => {
+    const user = await User.findByPk(req.params.id);
+    if(user === null){
+        return res.status(401).json("User not found");
+    }
+    else{
+        user.set(req.body);
+        user.password = bcrypt.hashSync(req.body.password, 10);
+
+        user.save()
+        .then(updateUser => {
+            return res.status(200).json(updateUser)
+        }).catch(error => {
+            return res.status(401).json(error)
+        })
+    }
+}

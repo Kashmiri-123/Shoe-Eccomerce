@@ -9,7 +9,9 @@ const {
     updateUser,
     getUserById,
     signout,
-    removeUserById
+    removeUserById,
+    forgotPasswordController,
+    updatePassword
     } = require('../controllers/Users');
 
 router.post("/signup",
@@ -30,5 +32,7 @@ router.get("/user/:id", getUserById);
 router.get("/signout", signout);
 router.delete("/user-remove/:id", removeUserById);
 
+router.post("/forgot/password/:id", forgotPasswordController);
+router.put("/reset/password/:id", updatePassword);
 
 module.exports = router;
