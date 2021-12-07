@@ -17,7 +17,7 @@ exports.AddressController = {
     getAddressByUserId: function(req,res){
         Address.findAll({
             where: {
-                creator: req.params.userId,
+                buyer: req.params.userId,
             }
         })
         .then(address => {
@@ -30,12 +30,12 @@ exports.AddressController = {
     getAddressById: async function(req, res){
         const id = req.params.addressId;
     
-        const address = await Cart.findByPk(id);
+        const address = await Address.findByPk(id);
         if(address === null){
             return res.status(401).json("Address not found");
         }
         else{
-            return res.status(200).json(Address);
+            return res.status(200).json(address);
         }
     },
 
@@ -45,7 +45,7 @@ exports.AddressController = {
                 id: req.params.addressId
             }
         }).then(result => {
-            return res.status(200).json("Address removed")
+            return res.status(200).json(result)
           }).catch(error => {
             console.log(error)
           })
@@ -55,7 +55,7 @@ exports.AddressController = {
     updateAddress: async function(req, res){
         const id = req.params.addressId;
         
-        const address = await Cart.findByPk(id);
+        const address = await Address.findByPk(id);
         if(address === null){
             return res.status(401).json("Address not found");
         }

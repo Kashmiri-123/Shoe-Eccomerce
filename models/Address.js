@@ -31,6 +31,13 @@ const Address = sequelize.define("Address", {
     Country: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    buyer: {
+        type: DataTypes.STRING,
+        references: {
+            model: "User",
+            key: 'id'
+        }
     }
 },{
     timestamps: false,
