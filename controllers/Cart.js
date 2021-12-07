@@ -14,7 +14,7 @@ exports.CartController = {
                 ]
             }, raw: true
         })
-        console.log(oldCart.length===0, oldCart===null)
+        
         if(oldCart.length != 0){
             console.log(JSON.stringify(oldCart)+ ">>>>>>>")
             return res.status(200).json("Product already in cart")
