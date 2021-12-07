@@ -64,5 +64,18 @@ exports.ProductController = {
         else{
             return res.status(200).json({product: product});
         }
+    },
+
+    removeProductById: async function(req, res){
+        Product.destroy({
+            where: { 
+                id: req.params.id
+            }
+        }).then(result => {
+            return res.status(200).json("Product removed")
+          }).catch(error => {
+            console.log("error")
+          })
+          
     }
 }

@@ -51,4 +51,17 @@ exports.CategoryController = {
             return res.status(200).json({category: category});
         }
     },
+
+    removeCategoryById: async function(req, res){
+        Category.destroy({
+            where: { 
+                id: req.params.id
+            }
+        }).then(result => {
+            return res.status(200).json("Category removed")
+          }).catch(error => {
+            console.log("error")
+          })
+          
+    }
 }

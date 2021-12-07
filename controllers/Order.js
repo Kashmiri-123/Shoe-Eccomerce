@@ -1,5 +1,8 @@
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 const uuidv1 = require("uuidv1");
+const sequelize = require('../database/index');
+
 
 exports.OrderController = {
     addOrder: function(req,res){
@@ -14,7 +17,8 @@ exports.OrderController = {
     },
 
     getAllOrders: function(req,res){
-        Order.findAll()
+        console.log("getAllOrders>>>>>>>>>>>>>>.")
+        Order.findAll({raw: true})
             .then(order => {
                 return res.status(200).json({order: order});
             }).catch(error => {

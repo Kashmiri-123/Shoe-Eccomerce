@@ -8,7 +8,8 @@ const {
     getAllUsers,
     updateUser,
     getUserById,
-    signout
+    signout,
+    removeUserById
     } = require('../controllers/Users');
 
 router.post("/signup",
@@ -27,6 +28,7 @@ router.get("/all-users", getAllUsers);
 router.put("/user-update/:id", updateUser);
 router.get("/user/:id", getUserById);
 router.get("/signout", signout);
+router.delete("/user-remove/:id", removeUserById);
 
 
 module.exports = router;

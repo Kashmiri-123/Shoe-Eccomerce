@@ -1,6 +1,7 @@
 const express = require('express');
 var sequelize = require('../database/index');
 const {DataTypes} = require("sequelize");
+const Product = require("./Product");
 
 const Order = sequelize.define('Order', {
     id: {
@@ -26,13 +27,20 @@ const Order = sequelize.define('Order', {
         type: DataTypes.ENUM("pending", "accepted", "shipped", "delivered"),
         defaultValue: "pending",
     },
-    products: {
+    product: {
         type: DataTypes.STRING,
         references: {
             model: "Product",
             key: 'id'
         }
-    }
+    },
+    buyer: {
+        type: DataTypes.STRING,
+        references: {
+            model: "User",
+            key: 'id'
+        }
+    },
 },{
     timestamps: false,
     freezeTableName: true

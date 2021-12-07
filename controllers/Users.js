@@ -107,3 +107,16 @@ exports.signout = async (req, res) => {
     res.clearCookie("token");
     return res.json({message: "User signed out!!"})
 }
+
+exports.removeUserById = async(req, res) => {
+    User.destroy({
+        where: { 
+            id: req.params.id
+        }
+    }).then(result => {
+        return res.status(200).json("User removed")
+      }).catch(error => {
+        console.log("error")
+      })
+      
+}
