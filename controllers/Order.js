@@ -52,5 +52,18 @@ exports.OrderController = {
         else{
             return res.status(200).json({order: order});
         }
+    },
+
+    getOrdersByUserId: async function(req, res){
+        Order.findAll({
+            where: {
+                buyer: req.params.userId,
+            }
+        })
+        .then(orders => {
+            return res.status(200).json(orders);
+        }).catch(error => {
+            return res.status(401).json(error);
+        })
     }
 }
