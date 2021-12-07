@@ -10,7 +10,8 @@ const productRoutes = require('./routes/Product');
 const categoryRoutes = require('./routes/Category');
 const orderRoutes = require('./routes/Order');
 const cartRoutes = require('./routes/Cart');
-const wishlist = require('./routes/Wishlist');
+const wishlistRoutes = require('./routes/Wishlist');
+const addressRoutes = require('./routes/Address');
 
 const app = express();
 
@@ -25,7 +26,8 @@ const app = express();
  app.use("/api", categoryRoutes);
  app.use("/api", orderRoutes);
  app.use("/api", cartRoutes);
- app.use("/api", wishlist);
+ app.use("/api", wishlistRoutes);
+ app.use("/api", addressRoutes);
 
  app.get("/", (req, res) => {
     res.send(`

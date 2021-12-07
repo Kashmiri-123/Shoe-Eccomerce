@@ -53,12 +53,27 @@ exports.OrderController = {
             return res.status(200).json({order: order});
         }
     },
+    // User.findOne({
+    //     where: { id: 2 },
+    //     include: [{ model: Book }]
+    //   }).then((user) => {
+    //     user.Books.map((book) => book.dataValues);
+    //     (async() => {
+    //       for (let i=0;i<user.Books.length;i++) {
+    //         user.Books[i].dataValues.library = await Library.findById(user.Books[i].BookUsers.library_id);
+    //       }
+    //     console.log(user);
+    //     })();
+    //   }).catch((err) => {
+    //     // handle error
+    //   });
 
     getOrdersByUserId: async function(req, res){
         Order.findAll({
             where: {
                 buyer: req.params.userId,
-            }
+            },
+            raw: true
         })
         .then(orders => {
             return res.status(200).json(orders);
