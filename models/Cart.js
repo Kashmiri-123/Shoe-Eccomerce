@@ -1,7 +1,6 @@
 const express = require('express');
-var sequelize = require('../database/index');
+const sequelize = require('../database/index');
 const {DataTypes} = require("sequelize");
-const User = require('../models/Users')
 
 const Cart = sequelize.define('Cart', {
     id: {

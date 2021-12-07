@@ -17,7 +17,6 @@ exports.OrderController = {
     },
 
     getAllOrders: function(req,res){
-        console.log("getAllOrders>>>>>>>>>>>>>>.")
         Order.findAll({raw: true})
             .then(order => {
                 return res.status(200).json({order: order});

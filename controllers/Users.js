@@ -41,6 +41,7 @@ exports.signup = (req,res) => {
                     id : user.id,
                     name : user.name,
                     email : user.email,
+                    phoneNumber : user.phoneNumber,
                     password : user.password
                 }})
                 })
@@ -72,8 +73,8 @@ exports.signin = async(req,res) => {
             //putting tokens in cookie
             res.cookie("token", token, {expire : new Date() + 9999});
             //send request to front end
-            const {id,name , email, role } = user[0];
-            return res.json({token, user: { id, name, email, role}});
+            const {id,name , email, role, phoneNumber } = user[0];
+            return res.json({token, user: { id, name, email, role, phoneNumber}});
         }
         else{
             return res.status(400).json("Wrong password");
