@@ -1,5 +1,9 @@
 const Product = require('../models/Product');
 const uuidv1 = require("uuidv1");
+Category = require('../models/Category');
+
+Category.hasMany(Product, {foreignKey: 'category'})
+Product.belongsTo(Category, {foreignKey: 'category'})
 
 exports.ProductController = {
     addProduct: function(req,res){
@@ -15,9 +19,8 @@ exports.ProductController = {
     },
 
     getAllProducts: function(req,res){
-        Product.findAll()
+        Product.findAll({include:Category})
         .then(product => {
-            console.log("Product.."+ product);
             return res.status(200).json(product);
         }).catch(error => {
             return res.status(401).json(error);

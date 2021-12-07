@@ -3,7 +3,7 @@ const sequelize = require('../database/index');
 const {DataTypes} = require("sequelize");
 
 
-const Address = sequelize.define("Address", {
+const Address = sequelize.define("Addressp", {
     id: {
         primaryKey: true,
         type: DataTypes.STRING,
@@ -44,11 +44,10 @@ const Address = sequelize.define("Address", {
     freezeTableName: true
 })
 
-Address.associate = models => {
-    Address.belongsTo(models.User, {
-        foreignKey: {
-            allowNull: false,
-        }
-    })
-}
+// Address.associate = models => {
+//     Address.belongsTo(models.User, {
+//         foreignKey:  'buyer',
+//         onDelete: 'CASCADE'
+//     })
+// }
 module.exports = Address;

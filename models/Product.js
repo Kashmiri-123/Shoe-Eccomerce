@@ -3,6 +3,8 @@ var sequelize = require('../database/index');
 const {DataTypes} = require("sequelize");
 const User = require('../models/Users')
 
+
+
 const Product = sequelize.define('Product', {
     id: {
         primaryKey: true,
@@ -41,5 +43,6 @@ const Product = sequelize.define('Product', {
     timestamps: false,
     freezeTableName: true
 })
+
 
 module.exports = Product;

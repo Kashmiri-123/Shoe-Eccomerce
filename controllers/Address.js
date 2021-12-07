@@ -1,6 +1,12 @@
 const Address = require('../models/Address');
 const uuidv1 = require("uuidv1");
 const { Op } = require("sequelize");
+const User = require("../models/Users");
+const sequelize = require('../database/index');
+const {DataTypes} = require("sequelize");
+
+// User.hasMany(Address, {foreignKey: 'buyer'})
+// Address.belongsTo(User, {foreignKey: 'buyer'})
 
 exports.AddressController = {
     addAddress: async function(req,res){
@@ -18,12 +24,13 @@ exports.AddressController = {
         Address.findAll({
             where: {
                 buyer: req.params.userId,
-            }
+            },
+            // include: User,
         })
         .then(address => {
             return res.status(200).json(address);
         }).catch(error => {
-            return res.status(401).json(error);
+            return res.status(401).json("error");
         })
     },
 

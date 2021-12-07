@@ -8,6 +8,10 @@ const SECRET = "TOKEN123"
 const sgMail = require('@sendgrid/mail');
 const SENDGRID_API_KEY = "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"
 sgMail.setApiKey(SENDGRID_API_KEY);
+const Address = require('../models/Address');
+
+// User.hasMany(Address, {foreignKey: 'buyer'})
+// Address.belongsTo(User, {foreignKey: 'buyer'})
 
 
 exports.signup = (req,res) => {
@@ -113,7 +117,9 @@ exports.updateUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
     const id = req.params.id;
-    const user = await User.findByPk(id, {raw: true});
+    const user = await User.findByPk(id,{raw: true},{
+        include: Address
+    });
     if(user === null){
         return res.status(401).json("User not found");
     }

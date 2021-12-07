@@ -1,6 +1,11 @@
 const Cart = require('../models/Cart');
 const uuidv1 = require("uuidv1");
 const { Op } = require("sequelize");
+const Product = require('../models/Product');
+
+Cart.belongsTo(Product, {foreignKey: 'product'})
+Product.hasMany(Cart, {foreignKey: 'product'})
+
 
 exports.CartController = {
     addCart: async function(req,res){
@@ -32,7 +37,9 @@ exports.CartController = {
         Cart.findAll({
             where: {
                 creator: req.params.userId,
-            }
+            },
+            include: Product
+            
         })
         .then(cart => {
             return res.status(200).json(cart);

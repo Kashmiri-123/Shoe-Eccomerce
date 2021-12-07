@@ -2,7 +2,13 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const uuidv1 = require("uuidv1");
 const sequelize = require('../database/index');
+const User = require('../models/Users');
 
+Order.belongsTo(Product, {foreignKey: 'product'})
+Product.hasMany(Order, {foreignKey: 'product'})
+
+Order.belongsTo(User, {foreignKey: 'buyer'})
+User.hasMany(Order, {foreignKey: 'buyer'})
 
 exports.OrderController = {
     addOrder: function(req,res){
@@ -17,7 +23,9 @@ exports.OrderController = {
     },
 
     getAllOrders: function(req,res){
-        Order.findAll({raw: true})
+        Order.findAll({
+            include: [Product, User],
+            raw: true})
             .then(order => {
                 return res.status(200).json({order: order});
             }).catch(error => {
@@ -53,26 +61,13 @@ exports.OrderController = {
             return res.status(200).json({order: order});
         }
     },
-    // User.findOne({
-    //     where: { id: 2 },
-    //     include: [{ model: Book }]
-    //   }).then((user) => {
-    //     user.Books.map((book) => book.dataValues);
-    //     (async() => {
-    //       for (let i=0;i<user.Books.length;i++) {
-    //         user.Books[i].dataValues.library = await Library.findById(user.Books[i].BookUsers.library_id);
-    //       }
-    //     console.log(user);
-    //     })();
-    //   }).catch((err) => {
-    //     // handle error
-    //   });
 
     getOrdersByUserId: async function(req, res){
         Order.findAll({
             where: {
                 buyer: req.params.userId,
             },
+            include: Product,
             raw: true
         })
         .then(orders => {
