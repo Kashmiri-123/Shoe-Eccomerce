@@ -118,8 +118,8 @@ exports.getUserById = async (req, res) => {
         return res.status(401).json("User not found");
     }
     else{
-        const {id,name , email, role } = user;
-        return res.status(200).json({ id, name, email, role});
+        const {id,name , email, role , phoneNumber } = user;
+        return res.status(200).json({ id, name, email, role, phoneNumber});
     }
 }
 

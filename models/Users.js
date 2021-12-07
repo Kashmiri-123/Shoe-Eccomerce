@@ -34,5 +34,11 @@ const User = sequelize.define("User", {
     freezeTableName: true
 });
 
+User.associate = models => {
+    User.hasMany(models.Address, {
+        onDelete: "cascade"
+    });
+}
+
 
 module.exports = User;
