@@ -5,6 +5,10 @@ var jwt = require('jsonwebtoken');//for tokenization
 var expressJwt = require('express-jwt');//cookies
 const uuidv1 = require("uuidv1");
 const SECRET = "TOKEN123"
+const sgMail = require('@sendgrid/mail');
+const SENDGRID_API_KEY = "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"
+sgMail.setApiKey(SENDGRID_API_KEY);
+
 
 exports.signup = (req,res) => {
     const errors = validationResult(req);
@@ -23,12 +27,27 @@ exports.signup = (req,res) => {
             const token = jwt.sign({_id:user.id}, SECRET);
             res.cookie("token", token, {expire : new Date() + 9999});
 
-            return res.status(200).json({token, user : {
-                id : user.id,
-                name : user.name,
-                email : user.email,
-                password : user.password
-            }})
+            const msg = {
+                to: user.email, // Change to your recipient
+                from: 'kashmiri.mahanta@mtxb2b.com', // Change to your verified sender
+                subject: 'Welcome to ShoeStore',
+                text: 'Hello'+ user.name + ', thankyou for registering to ShoeStore.',
+                html: 'Hello '+ user.name + ', thankyou for registering to ShoeStore.'+ '<br/><br/><strong>We are happy to serve you.</strong><br><br> Thankyou, <br>ShoeStore',
+              }
+              sgMail
+                .send(msg)
+                .then(() => {
+                  return res.status(200).json({token, user : {
+                    id : user.id,
+                    name : user.name,
+                    email : user.email,
+                    password : user.password
+                }})
+                })
+                .catch((error) => {
+                  console.error(error)
+                  return res.status(401).json(error);
+                })
         }).catch(error => {
             console.log("Error occurred: " + error);
             return res.status(401).json(error);
