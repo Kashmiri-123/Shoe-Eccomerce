@@ -3,6 +3,10 @@ const Product = require('../models/Product');
 const uuidv1 = require("uuidv1");
 const sequelize = require('../database/index');
 const User = require('../models/Users');
+const razorpayInstance = require('./payment');
+const sgMail = require('@sendgrid/mail');
+const SENDGRID_API_KEY = "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"
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 Order.belongsTo(Product, {foreignKey: 'product'})
 Product.hasMany(Order, {foreignKey: 'product'})
@@ -16,10 +20,68 @@ exports.OrderController = {
         order.id = uuidv1();
         order.save()
             .then(savedOrder => {
-                return res.status(200).json({product: savedOrder})
+                // const msg = {
+                //     to: user.email, // Change to your recipient
+                //     from: 'kashmiri.mahanta@mtxb2b.com', // Change to your verified sender
+                //     subject: 'Welcome to ShoeStore',
+                //     text: 'Hello'', thankyou for ordering from ShoeStore.',
+                //     html: 'Hello '', thankyou for ordering from ShoeStore. Your order will be delivered by '+ savedOrder.deliveryDate +' at your doorstep. You can view your order in the Orders section.<br/><br/><strong>We are happy to serve you.</strong><br><br> Thankyou, <br>ShoeStore',
+                //   }
+                //   sgMail
+                //     .send(msg)
+                //     .then(() => {
+                //       return res.status(200).json({token, user : {
+                //         id : user.id,
+                //         name : user.name,
+                //         email : user.email,
+                //         phoneNumber : user.phoneNumber,
+                //         password : user.password
+                //     }})
+                //     })
+                //     .catch((error) => {
+                //       console.error(error)
+                //       return res.status(401).json(error);
+                //     })
+                return res.status(200).json(savedOrder)
             }).catch(error => {
                 return res.status(401).json(error);
             })
+    },
+
+    addOrders: async function(req, res){
+        var options = {
+            amount: req.body.totaPrice * 100, // amount in the smallest currency unit
+            currency: "INR",
+            receipt: "kmonimahanta@gmail.com",
+            payment_capture: '0'
+        };
+        razorpayInstance.instance.orders.create(options, function(error, order) {
+                    if(error){
+                        console.log(error);
+                        res.status(417).json({
+                            message: error.message,
+                            payload: null
+                        });
+                    }
+                    else{
+                        const orders = new Order(req.body);
+                        // orders.id = uuidv1();
+                        orders.id = order;
+                        orders.save()
+                            .then(savedOrder => {
+                                return res.status(200).json({
+                                    // product: savedOrder,
+                                    payload:{
+                                        savedOrder,
+                                        key: razorpayInstance.config.key_id
+                                    },
+                                    razorOrder:order
+                                })
+                            }).catch(error => {
+                                return res.status(401).json(error);
+                            })
+                    }
+                  });
     },
 
     getAllOrders: function(req,res){

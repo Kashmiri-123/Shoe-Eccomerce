@@ -12,6 +12,7 @@ const orderRoutes = require('./routes/Order');
 const cartRoutes = require('./routes/Cart');
 const wishlistRoutes = require('./routes/Wishlist');
 const addressRoutes = require('./routes/Address');
+// const paymentRoutes = require('./routes/Payment');
 
 const app = express();
 
@@ -28,6 +29,7 @@ const app = express();
  app.use("/api", cartRoutes);
  app.use("/api", wishlistRoutes);
  app.use("/api", addressRoutes);
+//  app.use("/api", paymentRoutes);
 
  app.get("/", (req, res) => {
     res.send(`
