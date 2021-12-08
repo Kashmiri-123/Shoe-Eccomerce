@@ -12,10 +12,10 @@ const Order = sequelize.define('Order', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    adress: {
+    address: {
         type: DataTypes.STRING,
         references: {
-            model: "Addressp",
+            model: "Address",
             key: 'id'
         }
     },
