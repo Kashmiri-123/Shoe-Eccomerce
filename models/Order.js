@@ -14,7 +14,10 @@ const Order = sequelize.define('Order', {
     },
     adress: {
         type: DataTypes.STRING,
-        allowNull: false
+        references: {
+            model: "Addressp",
+            key: 'id'
+        }
     },
     deliveryDate: {
         type: DataTypes.DATE

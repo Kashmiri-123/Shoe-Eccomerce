@@ -32,7 +32,7 @@ router.get("/user/:id", getUserById);
 router.get("/signout", signout);
 router.delete("/user-remove/:id", removeUserById);
 
-router.post("/forgot/password/:id", forgotPasswordController);
+router.post("/forgot/password", forgotPasswordController);
 router.put("/reset/password/:id", updatePassword);
 
 module.exports = router;

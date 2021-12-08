@@ -151,12 +151,11 @@ exports.forgotPasswordController = async (req, res) => {
     const email = req.body.email;
 
     const user = await User.findOne({where: {email: email}});
-    console.log(">>>>>>>>>>"+ user)
     if(user === null){
         return res.status(401).json("User not found");
     }
     else{
-       var passUpdateUrl = "http://localhost:8000/password/reset/" + user.id;
+       var passUpdateUrl = "http://localhost:4200/forgot-password/" + user.id;
 
        const emailData = {
         to: email, // Change to your recipient
@@ -190,12 +189,12 @@ exports.updatePassword = async(req, res) => {
         return res.status(401).json("User not found");
     }
     else{
-        user.set(req.body);
+        // user.set(req.body);
         user.password = bcrypt.hashSync(req.body.password, 10);
 
         user.save()
         .then(updateUser => {
-            return res.status(200).json(updateUser)
+            return res.status(200).json({message: "Password updated!!"})
         }).catch(error => {
             return res.status(401).json(error)
         })

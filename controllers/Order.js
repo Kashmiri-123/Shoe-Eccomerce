@@ -62,7 +62,7 @@ exports.OrderController = {
         }
     },
 
-    getOrdersByUserId: async function(req, res){
+    getOrdersByUserId: function(req, res){
         Order.findAll({
             where: {
                 buyer: req.params.userId,
