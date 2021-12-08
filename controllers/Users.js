@@ -17,9 +17,9 @@ const Address = require('../models/Address');
 exports.signup = (req,res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()){
-        return res.status(422).json({
-            error : errors.array()[0].msg,
-        })
+        return res.status(422).json(
+            errors.array()[0].msg,
+        )
     }
 
     const user = new User(req.body);
@@ -64,9 +64,9 @@ exports.signin = async(req,res) => {
     const {email, password} =req.body;
     
     if (!errors.isEmpty()){
-        return res.status(422).json({
-            error : errors.array()[0].msg,
-        })
+        return res.status(422).json(
+            errors.array()[0].msg,
+        )
     }
     try {
         let user =  await User.findAll({where: {email: email}});

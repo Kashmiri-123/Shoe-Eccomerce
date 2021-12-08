@@ -17,33 +17,28 @@ User.hasMany(Order, {foreignKey: 'buyer'})
 exports.OrderController = {
     addOrder: function(req,res){
         const order = new Order(req.body);
+        const email = req.body.email;
         order.id = uuidv1();
         order.save()
             .then(savedOrder => {
-                // const msg = {
-                //     to: user.email, // Change to your recipient
-                //     from: 'kashmiri.mahanta@mtxb2b.com', // Change to your verified sender
-                //     subject: 'Welcome to ShoeStore',
-                //     text: 'Hello'', thankyou for ordering from ShoeStore.',
-                //     html: 'Hello '', thankyou for ordering from ShoeStore. Your order will be delivered by '+ savedOrder.deliveryDate +' at your doorstep. You can view your order in the Orders section.<br/><br/><strong>We are happy to serve you.</strong><br><br> Thankyou, <br>ShoeStore',
-                //   }
-                //   sgMail
-                //     .send(msg)
-                //     .then(() => {
-                //       return res.status(200).json({token, user : {
-                //         id : user.id,
-                //         name : user.name,
-                //         email : user.email,
-                //         phoneNumber : user.phoneNumber,
-                //         password : user.password
-                //     }})
-                //     })
-                //     .catch((error) => {
-                //       console.error(error)
-                //       return res.status(401).json(error);
-                //     })
-                return res.status(200).json(savedOrder)
+                const msg = {
+                    to: email, // Change to your recipient
+                    from: 'kashmiri.mahanta@mtxb2b.com', // Change to your verified sender
+                    subject: 'Welcome to ShoeStore',
+                    text: 'Hello, thankyou for ordering from ShoeStore.',
+                    html: 'Hello , thankyou for ordering from ShoeStore. Your order will be delivered by '+ savedOrder.deliveryDate +' at your doorstep. You can view your order in the Orders section.<br/><br/><strong>We are happy to serve you.</strong><br><br> Thankyou, <br>ShoeStore',
+                  }
+                  sgMail
+                    .send(msg)
+                    .then(() => {
+                      return res.status(200).json(savedOrder)
+                    })
+                    .catch((error) => {
+                      console.error("error>>>>>77>>")
+                      return res.status(401).json(error);
+                    })
             }).catch(error => {
+                console.error("error>>>>99>>>", error)
                 return res.status(401).json(error);
             })
     },
