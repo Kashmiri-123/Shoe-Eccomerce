@@ -5,7 +5,6 @@ const sequelize = require('../database/index');
 const User = require('../models/Users');
 const razorpayInstance = require('./payment');
 const sgMail = require('@sendgrid/mail');
-const SENDGRID_API_KEY = "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"
 sgMail.setApiKey(SENDGRID_API_KEY);
 
 Order.belongsTo(Product, {foreignKey: 'product'})

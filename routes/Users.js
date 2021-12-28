@@ -30,7 +30,7 @@ router.get("/all-users", getAllUsers);
 router.put("/user-update/:id", updateUser);
 router.get("/user/:id", getUserById);
 router.get("/signout", signout);
-router.delete("/user-remove/:id", removeUserById);
+router.delete("/remove-user/:id", removeUserById);
 
 router.post("/forgot/password", forgotPasswordController);
 router.put("/reset/password/:id", updatePassword);

@@ -19,6 +19,7 @@ const sequelize = new Sequelize(
 sequelize.sync();
 (async() => {
     try{
+        //checking if connection is okay
         await sequelize.authenticate();
         console.log("Database connection established successfully!!!")
     }catch(error){

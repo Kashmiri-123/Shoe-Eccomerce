@@ -6,7 +6,6 @@ var expressJwt = require('express-jwt');//cookies
 const uuidv1 = require("uuidv1");
 const SECRET = "TOKEN123"
 const sgMail = require('@sendgrid/mail');
-const SENDGRID_API_KEY = "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"
 sgMail.setApiKey(SENDGRID_API_KEY);
 const Address = require('../models/Address');
 
@@ -17,7 +16,7 @@ const Address = require('../models/Address');
 exports.signup = (req,res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()){
-        return res.status(422).json(
+        return res.status(400).json(
             errors.array()[0].msg,
         )
     }
@@ -78,6 +77,7 @@ exports.signin = async(req,res) => {
             res.cookie("token", token, {expire : new Date() + 9999});
             //send request to front end
             const {id,name , email, role, phoneNumber } = user[0];
+            console.log("??????????", role)
             return res.json({token, user: { id, name, email, role, phoneNumber}});
         }
         else{
@@ -140,9 +140,9 @@ exports.removeUserById = async(req, res) => {
             id: req.params.id
         }
     }).then(result => {
-        return res.status(200).json("User removed")
+        return res.status(200).json("User removed" + result)
       }).catch(error => {
-        console.log("error")
+        console.log(error)
       })
       
 }
